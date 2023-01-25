@@ -21,7 +21,7 @@ jobs:
         run: py -m pip install pyinstaller pywin32-ctypes
       - run: dir
       - name: Build exe
-        run: pyinstaller --console --onefile bloodweb-clicker.py
+        run: py -m PyInstaller --console --onefile bloodweb-clicker.py
       - uses: actions/upload-artifact@v3
         with:
           name: bloodweb-clicker
