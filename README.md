@@ -7,6 +7,7 @@
 ## Usage
 
 ### Running using Python
+Prequisites: Python 3
 1. `py -m venv env`
 2. `.\env\Scripts\activate`
 3. `py -m pip install -r requirements.txt`
@@ -26,3 +27,17 @@
 - Prioritizing certain nodes
 - Checking if there are bloodpoints left
 - Optimize circle detection
+
+## Building
+### Manual building
+Prequisites: Python 3
+1. `py -m venv env`
+2. `.\env\Scripts\activate`
+3. `py -m pip install -r requirements.txt`
+4. `py -m pip install pyinstaller`
+5. `pyinstaller --clean --console --onefile .\bloodweb-clicker.py`
+
+### Alternative using Powershell script (untested)<br>
+Prequisites: Python 3
+1. Run `.\build.ps1` in Powershell<br>
+Note: You may need to modify your settings to allow PowerShell script executions. [https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.3]<br>
