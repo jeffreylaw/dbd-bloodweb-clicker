@@ -24,4 +24,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: bloodweb-clicker
-          path: ./dist/bloodweb-clicker.exe
+          path: ./dist/bloodweb-clicker
