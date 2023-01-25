@@ -1,1 +1,3 @@
 # dbd-bloodweb-clicker
+
+- Limited 
