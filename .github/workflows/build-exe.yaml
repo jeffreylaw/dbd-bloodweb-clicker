@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - 'main'
-    # paths:
-    #   - '**.py'
+    paths:
+      - '**.py'
 
 jobs:
   build-executable:
