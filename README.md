@@ -3,6 +3,7 @@
 ## General
 - Limited testing done on 1920x1080 full screen DBD on Windows 10 
 - USE AT YOUR OWN RISK
+- To get the executable, visit [here](https://github.com/jeffreylaw/dbd-bloodweb-clicker/releases/latest) and click on bloodweb-clicker.exe to download
 
 ## Usage
 
