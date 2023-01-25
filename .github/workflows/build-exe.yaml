@@ -3,8 +3,8 @@ on:
   push:
     branches:
       - 'main'
-    paths:
-      - '**.py'
+    # paths:
+    #   - '**.py'
 
 jobs:
   build-executable:
@@ -14,8 +14,10 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10.8' 
+      - run: pwd
+      - run: ls -la
       - name: Install requirements
-        run: python3 -m pip install -r requirements
+        run: python3 -m pip install -r requirements.txt
       - name: Install pyinstaller
         run: python3 -m pip install pyinstaller
       - name: Build exe
