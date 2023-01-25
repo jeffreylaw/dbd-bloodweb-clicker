@@ -3,7 +3,6 @@ import math
 import os
 import signal
 import time
-import ctypes
 import cv2
 import pyautogui
 import pydirectinput
@@ -16,7 +15,8 @@ from ctypes import wintypes, windll, create_unicode_buffer
 class BloodwebClicker:
 
     def __init__(self):
-        print("LOG: Initializing BloodwebClicker")
+        print("Press right-control key to exit script")
+        print("Initializing Bloodweb Clicker...")
         self.width = None
         self.height = None
         self.get_monitor_res()
@@ -32,7 +32,7 @@ class BloodwebClicker:
         pydirectinput.click()
 
     def start(self):
-        print("LOG: Starting main process")
+        print("Starting clicks")
         while True:
             try:
                 if not self.dbd_in_focus():
@@ -64,8 +64,9 @@ class BloodwebClicker:
                         if not self.dbd_in_focus: continue
                         self.click_and_hold(x, y, 0.8)
             except Exception as e:
-                print("Exception: ", e)
-                print("-" * 30)
+                pass
+                # print("Exception: ", e)
+                # print("-" * 30)
 
     def dbd_in_focus(self):
         current_window = self.getForegroundWindowTitle().strip()
@@ -78,7 +79,6 @@ class BloodwebClicker:
         buf = create_unicode_buffer(length + 1)
         windll.user32.GetWindowTextW(hWnd, buf, length + 1)
 
-        # 1-liner alternative: return buf.value if buf.value else None
         if buf.value:
             return buf.value
         else:
@@ -86,7 +86,7 @@ class BloodwebClicker:
 
     def on_press(self, key):
         if key == keyboard.Key.ctrl_l:
-            print("LOG: Exiting script")
+            print("Exiting script")
             os.kill(os.getpid(), signal.SIGTERM)
 
     def get_monitor_res(self):
