@@ -19,7 +19,7 @@ jobs:
       - name: Install pyinstaller
         run: python3 -m pip install pyinstaller pywin32-ctypes
       - name: Build exe
-        run: pyinstaller --console --onefile bloodweb-clicker.py
+        run: pyinstaller --console --onefile --hidden-import "pynput.keyboard._win32" bloodweb-clicker.py
       - run: ls -la
       - uses: actions/upload-artifact@v3
         with:
