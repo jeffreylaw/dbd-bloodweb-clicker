@@ -1,0 +1,23 @@
+name: build-exe
+on:
+  push:
+    branches:
+      - 'main'
+    paths:
+      - '**.py'
+
+jobs:
+  build-executable:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10.8' 
+      - name: Install requirements
+        run: python3 -m pip install -r requirements
+      - name: Install pyinstaller
+        run: python3 -m pip install pyinstaller
+      - name: Build exe
+        run: pyinstaller --console --onefile bloodweb-clicker.py
+      - run: pwd
