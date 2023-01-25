@@ -1,6 +1,5 @@
 # dbd-bloodweb-clicker
-https://user-images.githubusercontent.com/21249877/214709416-0432781b-aeda-40c7-aba7-c6777a19f9f4.mp4
-
+https://user-images.githubusercontent.com/21249877/214710260-c31dbdd3-8aec-4c78-bb34-9f90df08a1a5.mp4
 ## General
 - Limited testing done on 1920x1080 full screen DBD on Windows 10 
 - USE AT YOUR OWN RISK
