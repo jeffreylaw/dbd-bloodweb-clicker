@@ -15,7 +15,7 @@ from ctypes import wintypes, windll, create_unicode_buffer
 class BloodwebClicker:
 
     def __init__(self):
-        print("Press right-control key to exit script")
+        print("Press left-control key to exit script")
         print("Initializing Bloodweb Clicker...")
         self.width = None
         self.height = None
