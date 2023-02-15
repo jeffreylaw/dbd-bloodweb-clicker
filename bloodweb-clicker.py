@@ -6,16 +6,17 @@ import time
 import cv2
 import pyautogui
 import pydirectinput
-import logging
 from pynput import keyboard
 from PIL import ImageGrab
 from typing import Optional
 from ctypes import wintypes, windll, create_unicode_buffer
+import yaml, logging, logging.config
 
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f.read())
+    logging.config.dictConfig(config)
 
-logging.basicConfig(filename="app.log", filemode="a", level=logging.DEBUG,
-                    format="%(asctime)s - %(levelname)s - %(message)s")
-
+logger = logging.getLogger(__name__)
 
 class BloodwebClicker:
 
@@ -35,7 +36,7 @@ class BloodwebClicker:
         pydirectinput.mouseUp(0, -9000)
         pydirectinput.click()
 
-    # https://stackoverflow.com/questions/10266281/obtain-active-window-using-python
+    """ Get foreground window title """
     def getForegroundWindowTitle(self) -> Optional[str]:
         hWnd = windll.user32.GetForegroundWindow()
         length = windll.user32.GetWindowTextLengthW(hWnd)
@@ -49,7 +50,6 @@ class BloodwebClicker:
 
     """ Check if dbd is in focus """
     def dbd_in_focus(self):
-        print(self.getForegroundWindowTitle())
         if self.getForegroundWindowTitle():
             current_window = self.getForegroundWindowTitle().strip()
             return current_window == "DeadByDaylight"
@@ -59,6 +59,7 @@ class BloodwebClicker:
     """
     def keyboard_listener(self, key):
         if key == keyboard.Key.esc:
+            logger.warning("Exiting script")
             os.kill(os.getpid(), signal.SIGTERM)
 
     """ Start screenshotting screen, look for circles using OpenCV, and click them """
@@ -80,9 +81,8 @@ class BloodwebClicker:
 
                 for (x, y, r) in detected_circles[0, :]:
                     self.click_and_hold(x, y, 0.8)
-            except Exception as e:
-                print(e)
-                # logging.error("Exception: ", e)
+            except Exception as exc:
+                logging.exception("Exception occured:")
 
     """ Function for development purposes """
     def dev(self):
@@ -102,7 +102,6 @@ class BloodwebClicker:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
-
     """ Get monitor resolution """
     def get_monitor_res(self):
         user32 = windll.user32
@@ -113,6 +112,6 @@ class BloodwebClicker:
 
 if __name__ == "__main__":
     app = BloodwebClicker()
-    print("Initializing Bloodweb Clicker...")
-    print("Press esc key to exit script.")
+    logger.info("Initializing Bloodweb Clicker...")
+    logger.info("Press esc key to exit script.")
     app.start()
