@@ -104,7 +104,7 @@ class BloodwebClicker:
                 foreground_win_title = self.get_foreground_win_title(hdl)
                 if foreground_win_title == "DeadByDaylight":
                     pydirectinput.mouseUp()
-                    
+
                 logger.info("Exiting script")
                 os.kill(os.getpid(), signal.SIGTERM)
 
@@ -130,7 +130,7 @@ class BloodwebClicker:
                     detected_circles = np.uint16(np.around(circles))
                     for (x, y, r) in detected_circles[0, :]:
                         if self.topleft_x[0] <= x <= self.bottomright_x[0] and self.topleft_y[1] <= y <= self.bottomright_y[1]:
-                            self.click_and_hold(x, y, 1.1)
+                            self.click_and_hold(x, y, 0.7)
             except Exception as exc:
                 logging.exception("Exception occured:")
 
