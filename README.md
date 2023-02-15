@@ -1,8 +1,9 @@
 # dbd-bloodweb-clicker
 https://user-images.githubusercontent.com/21249877/214710260-c31dbdd3-8aec-4c78-bb34-9f90df08a1a5.mp4
 ## General
+- Developed for educational purposes only.
 - Limited testing done on 1920x1080 full screen DBD on Windows 10 
-- USE AT YOUR OWN RISK
+- USE AT YOUR OWN RISK. Although Behaviour doesn't actively ban for macroing (except bots), any third party software can trigger their anti-cheating software. You have been warned. (https://forums.bhvr.com/dead-by-daylight/discussion/82667/will-struggle-macros-get-you-banned)
 - To get the executable, visit [here](https://github.com/jeffreylaw/dbd-bloodweb-clicker/releases/latest) and click on bloodweb-clicker.exe to download
 
 ## Usage
