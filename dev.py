@@ -52,12 +52,12 @@ class BloodwebClicker:
                     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
                                             param1=50, param2=30, minRadius=40, maxRadius=50)
                     detected_circles = np.uint16(np.around(circles))
-                    for i in detected_circles[0, :]:
+                    for (x, y, r) in detected_circles[0, :]:
                         # Outer circle
-                        cv2.circle(img, (i[0], i[1]), i[2], (255, 255, 255), 2)
+                        cv2.circle(img, (x, y, r), (255, 255, 255), 2)
 
                         # Center
-                        cv2.circle(img, (i[0], i[1]), 2, (255, 255, 255), 3)
+                        cv2.circle(img, (x, y), 2, (255, 255, 255), 3)
 
                     cv2.imshow('img', img)
                     cv2.waitKey(0)
@@ -73,6 +73,8 @@ class BloodwebClicker:
                     img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
                     img = cv2.medianBlur(img, 5)
 
+                    if not self.dbd_in_focus:
+                        continue
                     circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
                                             param1=50, param2=30, minRadius=40, maxRadius=50)
                     detected_circles = np.uint16(np.around(circles))
@@ -87,27 +89,27 @@ class BloodwebClicker:
                     img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
                     img = cv2.medianBlur(img, 5)
 
-                if not self.dbd_in_focus:
-                    continue
-                circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
-                                           param1=50, param2=30, minRadius=40, maxRadius=50)
-                detected_circles = np.uint16(np.around(circles))
-
-                for (x, y, r) in detected_circles[0, :]:
-                    if x > (self.width * 0.7):
+                    if not self.dbd_in_focus:
                         continue
+                    circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
+                                            param1=50, param2=30, minRadius=40, maxRadius=50)
+                    detected_circles = np.uint16(np.around(circles))
 
-                    match_found = False
-                    for i in range(361):
-                        circle_x = int(r * math.cos(i) + x)
-                        circle_y = int(r * math.sin(i) + y)
-                        if pyautogui.pixelMatchesColor(circle_x, circle_y, (146, 138, 109), tolerance=20):
-                            match_found = True
-                            break
-                    if match_found:
-                        if not self.dbd_in_focus:
+                    for (x, y, r) in detected_circles[0, :]:
+                        if x > (self.width * 0.7):
                             continue
-                        self.click_and_hold(x, y, 0.8)
+
+                        match_found = False
+                        for i in range(361):
+                            circle_x = int(r * math.cos(i) + x)
+                            circle_y = int(r * math.sin(i) + y)
+                            if pyautogui.pixelMatchesColor(circle_x, circle_y, (146, 138, 109), tolerance=20):
+                                match_found = True
+                                break
+                        if match_found:
+                            if not self.dbd_in_focus:
+                                continue
+                            self.click_and_hold(x, y, 0.8)
             except Exception as e:
                 print(e)
                 # logging.error("Exception: ", e)
