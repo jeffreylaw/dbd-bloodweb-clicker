@@ -43,7 +43,7 @@ class BloodwebClicker:
         buffer = create_unicode_buffer(window_title_len + 1)
         windll.user32.GetWindowTextW(foreground_window_handle, buffer, window_title_len + 1)
 
-        if not buffer.value and buffer.value.strip() != "Notepad":
+        if not buffer.value and buffer.value.strip() != "DeadByDaylight":
             return False
             
         rect = wintypes.RECT()
