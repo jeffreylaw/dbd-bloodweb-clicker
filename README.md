@@ -2,7 +2,7 @@
 https://user-images.githubusercontent.com/21249877/214710260-c31dbdd3-8aec-4c78-bb34-9f90df08a1a5.mp4
 ## General
 - Developed for educational purposes only.
-- Limited testing done on 1920x1080 full screen DBD on Windows 10 
+- Supports and tested on [1920x1080 full screen DBD on Windows 10] only.
 - USE AT YOUR OWN RISK. Although Behaviour doesn't actively ban for macroing (except bots), any third party software can trigger their anti-cheating software. You have been warned. (https://forums.bhvr.com/dead-by-daylight/discussion/82667/will-struggle-macros-get-you-banned)
 - To get the executable, visit [here](https://github.com/jeffreylaw/dbd-bloodweb-clicker/releases/latest) and click on bloodweb-clicker.exe to download
 
@@ -15,20 +15,21 @@ Prequisites: Python 3
 3. `py -m pip install -r requirements.txt`
 4. `py .\bloodweb-clicker.py`
 5. Switch to DBD bloodweb screen
-6. Press right-control button on keyboard to exit
 
 ### Running using executable
 1. Run bloodweb-clicker.exe
 2. Switch to DBD bloodweb screen
-3. Press right-control button on keyboard to exit
+
+### Resume, Pause, and Quit script
+- F1 key -> Resume
+- F2 key -> Pause
+- F4 key -> Quit script
 
 ## Limitations & Bugs
-- Prestiging does not work
+- Prestiging may not work
 
 ## Planned Features
-- Prioritizing certain nodes
-- Checking if there are bloodpoints left
-- Optimize circle detection
+- None at this time
 
 ## Building
 ### Manual building
@@ -42,4 +43,4 @@ Prequisites: Python 3
 ### Alternative using Powershell script (untested)<br>
 Prequisites: Python 3
 1. Run `.\build.ps1` in Powershell<br>
-Note: You may need to modify your settings to allow PowerShell script executions. [https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.3]<br>
+You may need to modify your settings to allow PowerShell script executions. [https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.3]<br>
