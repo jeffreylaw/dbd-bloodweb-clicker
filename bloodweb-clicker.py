@@ -163,5 +163,5 @@ class BloodwebClicker:
 if __name__ == "__main__":
     app = BloodwebClicker()
     logger.info("Initializing Bloodweb Clicker...")
-    logger.info("Press esc key to exit script.")
+    logger.info("Press F4 key to exit script.")
     app.start()
