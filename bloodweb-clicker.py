@@ -5,6 +5,7 @@ import yaml
 import numpy as np
 import cv2
 import pydirectinput
+import pyautogui
 from pynput import keyboard
 from PIL import ImageGrab
 from ctypes import wintypes, windll, create_unicode_buffer, pointer
@@ -84,7 +85,7 @@ class BloodwebClicker:
                     detected_circles = np.uint16(np.around(circles))
                     for (x, y, r) in detected_circles[0, :]:
                         if self.top_l[0] <= x <= self.bottom_r[0] and self.top_l[1] <= y <= self.bottom_r[1]:
-                            self.click_and_hold(x, y, 0.8)
+                            self.click_and_hold(x, y, 1.1)
             except Exception as exc:
                 logging.exception("Exception occured:")
 
