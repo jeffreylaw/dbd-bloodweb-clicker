@@ -36,7 +36,7 @@ class BloodwebClicker:
         pydirectinput.click()
 
     """ Check if dbd is in foreground and set top left, bottom right coordinates """
-    def check_for_dbd(self):
+    def check_for_dbd(self) -> bool:
         foreground_window_handle = windll.user32.GetForegroundWindow()
         window_title_len = windll.user32.GetWindowTextLengthW(foreground_window_handle)
         buffer = create_unicode_buffer(window_title_len + 1)
