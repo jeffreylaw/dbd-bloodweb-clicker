@@ -7,7 +7,7 @@ import cv2
 import pydirectinput
 from pynput import keyboard
 from PIL import ImageGrab
-from ctypes import wintypes, windll, create_unicode_buffer
+from ctypes import wintypes, windll, create_unicode_buffer, pointer
 
 with open("config.yaml", "r") as f:
     config = yaml.safe_load(f.read())
@@ -18,8 +18,10 @@ logger = logging.getLogger(__name__)
 class BloodwebClicker:
 
     def __init__(self) -> None:
-        self.width = None
-        self.height = None
+        self.top_l = (-1, -1)
+        self.bottom_r = (-1, -1)
+        self.height_res = None
+        self.width_res = None
         self.get_monitor_res()
         listener = keyboard.Listener(on_press=self.keyboard_listener)
         listener.start()
@@ -28,43 +30,46 @@ class BloodwebClicker:
     def click_and_hold(self, x, y, duration) -> None:
         pydirectinput.moveTo(x, y)
         pydirectinput.mouseDown(x, y)
-        pydirectinput.moveTo(0, -9000)
+        pydirectinput.moveTo(int(((self.bottom_r[0] - self.top_l[0]) / 2)) + self.top_l[0], self.top_l[1]+10) # type: ignore
         time.sleep(duration)
-        pydirectinput.mouseUp(0, -9000)
+        pydirectinput.mouseUp(int(((self.bottom_r[0] - self.top_l[0]) / 2)) + self.top_l[0], self.top_l[1]+10) # type: ignore
         pydirectinput.click()
 
-    """ Get foreground window title """
-    def getForegroundWindowTitle(self) -> Optional[str]:
-        hWnd = windll.user32.GetForegroundWindow()
-        length = windll.user32.GetWindowTextLengthW(hWnd)
-        buf = create_unicode_buffer(length + 1)
-        windll.user32.GetWindowTextW(hWnd, buf, length + 1)
+    """ Check if dbd is in foreground and set top left, bottom right coordinates """
+    def check_for_dbd(self):
+        foreground_window_handle = windll.user32.GetForegroundWindow()
+        window_title_len = windll.user32.GetWindowTextLengthW(foreground_window_handle)
+        buffer = create_unicode_buffer(window_title_len + 1)
+        windll.user32.GetWindowTextW(foreground_window_handle, buffer, window_title_len + 1)
 
-        if buf.value:
-            return buf.value
-        else:
-            return None
+        if not buffer.value and buffer.value.strip() != "Notepad":
+            return False
+            
+        rect = wintypes.RECT()
+        windll.user32.GetWindowRect(foreground_window_handle, pointer(rect))        
 
-    """ Check if dbd is in focus """
-    def dbd_in_focus(self) -> bool:
-        if self.getForegroundWindowTitle():
-            current_window = self.getForegroundWindowTitle().strip()
-            return current_window == "DeadByDaylight"
-        return False
+        if rect.left < 0: # type: ignore    
+            return False
+
+        self.top_l = (rect.left, rect.top)
+        self.bottom_r = (rect.right, rect.bottom)
+        # print(f"Topleft: {rect.left},{rect.top}. Bottomright: {rect.right},{rect.bottom}")
+        return True
+
 
     """ Listener for keyboard presses
         - ESC key to exit script
     """
     def keyboard_listener(self, key) -> None:
         if key == keyboard.Key.esc:
-            logger.warning("Exiting script")
+            logger.info("Exiting script")
             os.kill(os.getpid(), signal.SIGTERM)
 
     """ Start screenshotting screen, look for circles using OpenCV, and click them """
     def start(self) -> None:
         while True:
             try:
-                if not self.dbd_in_focus():
+                if not self.check_for_dbd():
                     time.sleep(0.5)
                     continue
 
@@ -75,10 +80,11 @@ class BloodwebClicker:
 
                 circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
                                         param1=50, param2=30, minRadius=40, maxRadius=50)
-                detected_circles = np.uint16(np.around(circles))
-
-                for (x, y, r) in detected_circles[0, :]:
-                    self.click_and_hold(x, y, 0.8)
+                if circles:
+                    detected_circles = np.uint16(np.around(circles))
+                    for (x, y, r) in detected_circles[0, :]:
+                        if self.top_l[0] <= x <= self.bottom_r[0] and self.top_l[1] <= y <= self.bottom_r[1]:
+                            self.click_and_hold(x, y, 0.8)
             except Exception as exc:
                 logging.exception("Exception occured:")
 
@@ -104,8 +110,8 @@ class BloodwebClicker:
     def get_monitor_res(self) -> None:
         user32 = windll.user32
         user32.SetProcessDPIAware()
-        self.width = user32.GetSystemMetrics(0)
-        self.height = user32.GetSystemMetrics(1)
+        self.width_res = user32.GetSystemMetrics(0)
+        self.height_res = user32.GetSystemMetrics(1)
 
 
 if __name__ == "__main__":
