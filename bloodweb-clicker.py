@@ -81,7 +81,7 @@ class BloodwebClicker:
 
                 circles = cv2.HoughCircles(img, cv2.HOUGH_GRADIENT, 1, 20,
                                         param1=50, param2=30, minRadius=40, maxRadius=50)
-                if circles:
+                if circles is not None:
                     detected_circles = np.uint16(np.around(circles))
                     for (x, y, r) in detected_circles[0, :]:
                         if self.top_l[0] <= x <= self.bottom_r[0] and self.top_l[1] <= y <= self.bottom_r[1]:
